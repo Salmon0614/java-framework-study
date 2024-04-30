@@ -1,8 +1,5 @@
 package com.salmon.controller;
 
-import com.salmon.service.UserServiceImpl;
-import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -11,11 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class UserController {
-    @Resource
-    private UserServiceImpl userServiceImpl;
-
-    @GetMapping("/user")
-    public String getUser() {
-        return userServiceImpl.getUser();
-    }
+    // 无需传统http发起请求，而是使用rpc调用服务
+//    @Resource
+//    private UserServiceImpl userServiceImpl;
+//
+//    @GetMapping("/user")
+//    public String getUser() {
+//        return userServiceImpl.getUser();
+//    }
 }

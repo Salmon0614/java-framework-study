@@ -1,5 +1,7 @@
 package com.salmon.service;
 
+import com.salmon.entity.User;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,11 +13,11 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class OrderService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    @DubboReference(version = "2.0")
+    private UserService userService;
 
     public String getOrder() {
-        String result = restTemplate.getForObject("http://localhost:8080/user", String.class);
-        return result;
+        User user = userService.getUser("1");
+        return user.getUsername();
     }
 }
