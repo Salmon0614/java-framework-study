@@ -1,0 +1,10 @@
+dubbo:
+  registries:
+    demoZK:
+      protocol: zookeeper
+      address: 127.0.0.1:2181
+  consumer:
+    references:
+      UserServiceClientImpl:
+        protocol: tri
+        interface: com.salmon.UserService

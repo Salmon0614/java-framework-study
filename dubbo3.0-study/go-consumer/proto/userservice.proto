@@ -1,0 +1,18 @@
+syntax = "proto3";
+package api;
+option go_package = "./;api";
+option java_multiple_files = true;
+option java_package = "com.salmon";
+option java_outer_classname = "UserServiceProto";
+service UserService {
+  rpc GetUser (UserRequest) returns (User) {}
+}
+// The response message containing the greetings
+message UserRequest {
+  string uid = 1;
+}
+// The response message containing the greetings
+message User {
+  string uid = 1;
+  string username = 2;
+}

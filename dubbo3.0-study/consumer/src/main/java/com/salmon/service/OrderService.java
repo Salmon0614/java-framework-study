@@ -1,6 +1,7 @@
 package com.salmon.service;
 
 import com.salmon.entity.User;
+import com.salmon.entity.UserRequest;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class OrderService {
     private UserService userService;
 
     public String getOrder() {
-//        User user = userService.getUser("1");
-
+        User user = userService.getUser(new UserRequest("1"));
+        System.out.println(user);
 //        userService.sayHelloServerStream("Salmon", new StreamObserver<String>() {
 //            @Override
 //            public void onNext(String data) {
@@ -38,27 +39,27 @@ public class OrderService {
 //        });
 
         // 双端流
-        StreamObserver<String> streamObserver = userService.sayHelloStream(new StreamObserver<String>() {
-            @Override
-            public void onNext(String data) {
-                System.out.println("客户端接收数据："+data);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println("客户端接收完成");
-            }
-        });
-        // 客户端向服务端发送数据
-        streamObserver.onNext("1");
-        streamObserver.onNext("2");
-        streamObserver.onNext("3");
-        streamObserver.onCompleted();
+//        StreamObserver<String> streamObserver = userService.sayHelloStream(new StreamObserver<String>() {
+//            @Override
+//            public void onNext(String data) {
+//                System.out.println("客户端接收数据："+data);
+//            }
+//
+//            @Override
+//            public void onError(Throwable throwable) {
+//
+//            }
+//
+//            @Override
+//            public void onCompleted() {
+//                System.out.println("客户端接收完成");
+//            }
+//        });
+//        // 客户端向服务端发送数据
+//        streamObserver.onNext("1");
+//        streamObserver.onNext("2");
+//        streamObserver.onNext("3");
+//        streamObserver.onCompleted();
         return "success";
     }
 }
