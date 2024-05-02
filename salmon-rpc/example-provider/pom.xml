@@ -20,9 +20,14 @@
 
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.salmon</groupId>-->
+<!--            <artifactId>salmon-rpc-easy</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.salmon</groupId>
-            <artifactId>salmon-rpc-easy</artifactId>
+            <artifactId>salmon-rpc-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
