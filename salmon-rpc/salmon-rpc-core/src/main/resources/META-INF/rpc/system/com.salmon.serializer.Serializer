@@ -1,0 +1,4 @@
+jdk=com.salmon.serializer.JdkSerializer
+hessian=com.salmon.serializer.HessianSerializer
+json=com.salmon.serializer.JsonSerializer
+kryo=com.salmon.serializer.KryoSerializer

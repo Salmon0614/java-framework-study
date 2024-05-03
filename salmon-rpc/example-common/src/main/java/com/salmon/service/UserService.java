@@ -23,7 +23,7 @@ public interface UserService {
      *
      * @return 短整型数字
      */
-    default short getNumber() {
+    default Integer getNumber() {
         return 1;
     }
 }

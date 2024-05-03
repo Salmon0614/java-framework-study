@@ -1,10 +1,11 @@
 package com.salmon.server.handler;
 
+import com.salmon.RpcApplication;
 import com.salmon.model.RpcRequest;
 import com.salmon.model.RpcResponse;
 import com.salmon.registry.LocalRegistry;
-import com.salmon.serializer.JdkSerializer;
 import com.salmon.serializer.Serializer;
+import com.salmon.serializer.SerializerFactory;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
@@ -24,7 +25,7 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest request) {
         // 指定序列化器
-        final Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         // 记录日志
         System.out.println("Received request: " + request.method() + " " + request.uri());
