@@ -1,7 +1,10 @@
 package com.salmon;
 
+import com.salmon.config.RegistryConfig;
 import com.salmon.config.RpcConfig;
 import com.salmon.constant.RpcConstant;
+import com.salmon.registry.Registry;
+import com.salmon.registry.RegistryFactory;
 import com.salmon.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,13 +35,19 @@ public class RpcApplication {
     }
 
     /**
-     * 传入自定义配置
+     * 框架初始化，支持传入自定义配置
      *
      * @param newRpcConfig 配置
      */
     public static void init(RpcConfig newRpcConfig) {
         rpcConfig = newRpcConfig;
         log.info("rpc init, config = {}", newRpcConfig);
+        // 注册中心初始化
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        // 根据注册中心类别获取注册中心实例
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("registry init, config = {}", registryConfig);
     }
 
     /**
