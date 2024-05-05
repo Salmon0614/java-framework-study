@@ -1,1 +1,2 @@
 etcd=com.salmon.registry.EtcdRegistry
+zookeeper=com.salmon.registry.ZooKeeperRegistry
