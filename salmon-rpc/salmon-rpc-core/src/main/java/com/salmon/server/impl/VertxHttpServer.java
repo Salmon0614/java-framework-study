@@ -10,7 +10,8 @@ import io.vertx.core.Vertx;
  * @author Salmon
  * @since 2024-04-25
  */
-public class VertxHttpServerImpl implements HttpServer {
+public class VertxHttpServer implements HttpServer {
+
     @Override
     public void doStart(int port) {
         // 创建 Vert.x 实例

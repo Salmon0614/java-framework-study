@@ -3,7 +3,7 @@ package com.salmon;
 import com.salmon.impl.UserServiceImpl;
 import com.salmon.registry.LocalRegistry;
 import com.salmon.server.HttpServer;
-import com.salmon.server.impl.VertxHttpServerImpl;
+import com.salmon.server.impl.VertxHttpServer;
 import com.salmon.service.UserService;
 
 /**
@@ -18,7 +18,7 @@ public class EasyProviderExample {
         LocalRegistry.registry(UserService.class.getName(), UserServiceImpl.class);
 
         // 启动 Web 服务
-        HttpServer server = new VertxHttpServerImpl();
+        HttpServer server = new VertxHttpServer();
         server.doStart(8080);
     }
 }

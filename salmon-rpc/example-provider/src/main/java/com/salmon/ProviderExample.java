@@ -2,14 +2,13 @@ package com.salmon;
 
 import com.salmon.config.RegistryConfig;
 import com.salmon.config.RpcConfig;
-import com.salmon.constant.RpcConstant;
 import com.salmon.impl.UserServiceImpl;
 import com.salmon.model.ServiceMetaInfo;
 import com.salmon.registry.LocalRegistry;
 import com.salmon.registry.Registry;
 import com.salmon.registry.RegistryFactory;
 import com.salmon.server.HttpServer;
-import com.salmon.server.impl.VertxHttpServerImpl;
+import com.salmon.server.impl.VertxHttpServer;
 import com.salmon.service.UserService;
 
 /**
@@ -48,7 +47,7 @@ public class ProviderExample {
         }
 
         // 启动 web 服务
-        HttpServer httpServer = new VertxHttpServerImpl();
+        HttpServer httpServer = new VertxHttpServer();
         httpServer.doStart(rpcConfig.getServerPort());
     }
 }
