@@ -8,7 +8,7 @@ import com.salmon.registry.LocalRegistry;
 import com.salmon.registry.Registry;
 import com.salmon.registry.RegistryFactory;
 import com.salmon.server.HttpServer;
-import com.salmon.server.impl.VertxHttpServer;
+import com.salmon.server.tcp.VertxTcpServer;
 import com.salmon.service.UserService;
 
 /**
@@ -29,7 +29,6 @@ public class ProviderExample {
         // 注册服务到注册中心
         RpcConfig rpcConfig = RpcApplication.getRpcConfig();
         RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
-        registryConfig.setAddress("http://localhost:2379");
         // 获取注册中心实例
         Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
 
@@ -46,8 +45,8 @@ public class ProviderExample {
             throw new RuntimeException(e);
         }
 
-        // 启动 web 服务
-        HttpServer httpServer = new VertxHttpServer();
+        // 启动 TCP 服务
+        HttpServer httpServer = new VertxTcpServer();
         httpServer.doStart(rpcConfig.getServerPort());
     }
 }

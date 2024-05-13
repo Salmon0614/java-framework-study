@@ -1,6 +1,7 @@
 package com.salmon.proxy;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.salmon.RpcApplication;
@@ -9,15 +10,23 @@ import com.salmon.constant.RpcConstant;
 import com.salmon.model.RpcRequest;
 import com.salmon.model.RpcResponse;
 import com.salmon.model.ServiceMetaInfo;
+import com.salmon.protocol.*;
 import com.salmon.registry.Registry;
 import com.salmon.registry.RegistryFactory;
 import com.salmon.serializer.Serializer;
 import com.salmon.serializer.SerializerFactory;
+import com.salmon.server.tcp.VertxTcpClient;
+import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.net.NetClient;
+import io.vertx.core.net.NetSocket;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 服务代理（JDK 动态代理）
@@ -25,6 +34,7 @@ import java.util.List;
  * @author Salmon
  * @since 2024-04-26
  */
+@Slf4j
 public class ServiceProxy implements InvocationHandler {
 
     /**
@@ -38,9 +48,6 @@ public class ServiceProxy implements InvocationHandler {
      */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        // 指定序列化器
-        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
-
         // 构造请求
         String serviceName = method.getDeclaringClass().getName();
         RpcRequest rpcRequest = RpcRequest.builder()
@@ -50,9 +57,6 @@ public class ServiceProxy implements InvocationHandler {
                 .args(args)
                 .build();
         try {
-            // 序列化
-            byte[] bodyBytes = serializer.serialize(rpcRequest);
-
             // 从注册中心获取服务提供者请求地址
             RpcConfig rpcConfig = RpcApplication.getRpcConfig();
             // 获取到具体的注册中心实例
@@ -68,21 +72,11 @@ public class ServiceProxy implements InvocationHandler {
             }
             // todo 暂时先取第一个节点，后续通过负载均衡来获取
             ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
-
-            // 发起 HTTP 请求，远程调用服务的方法
-            try (HttpResponse httpResponse = HttpRequest.post(selectedServiceMetaInfo.getServiceAddress())
-                    .body(bodyBytes)
-                    .execute()) {
-                if (httpResponse.isOk()) {
-                    byte[] result = httpResponse.bodyBytes();
-                    // 反序列化 RPC 响应
-                    RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
-                    return rpcResponse.getData();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            // 发送 TCP 请求
+            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
+            return rpcResponse.getData();
+        } catch (Exception e) {
+            throw new RuntimeException("调用失败");
         }
-        return null;
     }
 }
