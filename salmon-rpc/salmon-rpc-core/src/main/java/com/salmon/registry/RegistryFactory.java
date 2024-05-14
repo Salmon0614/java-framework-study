@@ -1,5 +1,6 @@
 package com.salmon.registry;
 
+import cn.hutool.core.util.StrUtil;
 import com.salmon.spi.SpiLoader;
 
 /**
@@ -26,6 +27,9 @@ public class RegistryFactory {
      * @return 注册中心实例
      */
     public static Registry getInstance(String key) {
+        if (StrUtil.isBlank(key)) {
+            return DEFAULT_REGISTRY;
+        }
         return SpiLoader.getInstance(Registry.class, key);
     }
 }

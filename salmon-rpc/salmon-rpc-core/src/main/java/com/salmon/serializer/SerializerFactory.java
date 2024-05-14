@@ -1,5 +1,6 @@
 package com.salmon.serializer;
 
+import cn.hutool.core.util.StrUtil;
 import com.salmon.spi.SpiLoader;
 
 /**
@@ -26,6 +27,9 @@ public class SerializerFactory {
      * @return 序列化实现实例
      */
     public static Serializer getInstance(String key) {
+        if (StrUtil.isBlank(key)) {
+            return DEFAULT_SERIALIZER;
+        }
         return SpiLoader.getInstance(Serializer.class, key);
     }
 

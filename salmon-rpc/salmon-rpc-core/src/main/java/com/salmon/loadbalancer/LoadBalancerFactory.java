@@ -1,5 +1,6 @@
 package com.salmon.loadbalancer;
 
+import cn.hutool.core.util.StrUtil;
 import com.salmon.loadbalancer.impl.RoundRobinLoadBalancer;
 import com.salmon.spi.SpiLoader;
 
@@ -27,6 +28,9 @@ public class LoadBalancerFactory {
      * @return 指定的负载均衡实现
      */
     public static LoadBalancer getInstance(String key) {
+        if (StrUtil.isBlank(key)) {
+            return DEFAULT_LOAD_BALANCER;
+        }
         return SpiLoader.getInstance(LoadBalancer.class, key);
     }
 }
