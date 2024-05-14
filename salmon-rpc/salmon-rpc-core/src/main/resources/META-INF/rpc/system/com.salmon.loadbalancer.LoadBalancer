@@ -1,0 +1,3 @@
+roundRobin=com.salmon.loadbalancer.RoundRobinLoadBalancer
+random=com.salmon.loadbalancer.RandomLoadBalancer
+consistentHash=com.salmon.loadbalancer.ConsistentHashLoadBalancer
