@@ -18,6 +18,12 @@
     </properties>
 
     <dependencies>
+        <!-- 重试库：https://github.com/rholder/guava-retrying -->
+        <dependency>
+            <groupId>com.github.rholder</groupId>
+            <artifactId>guava-retrying</artifactId>
+            <version>2.0.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
         <dependency>
             <groupId>io.vertx</groupId>

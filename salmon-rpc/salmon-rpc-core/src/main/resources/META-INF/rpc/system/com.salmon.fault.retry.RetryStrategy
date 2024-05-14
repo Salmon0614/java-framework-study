@@ -1,0 +1,2 @@
+no=com.salmon.fault.retry.impl.NoRetryStrategy
+fixedInterval=com.salmon.fault.retry.impl.FixedIntervalRetryStrategy

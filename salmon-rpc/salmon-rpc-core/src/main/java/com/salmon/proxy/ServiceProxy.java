@@ -7,6 +7,8 @@ import cn.hutool.http.HttpResponse;
 import com.salmon.RpcApplication;
 import com.salmon.config.RpcConfig;
 import com.salmon.constant.RpcConstant;
+import com.salmon.fault.retry.RetryStrategy;
+import com.salmon.fault.retry.RetryStrategyFactory;
 import com.salmon.loadbalancer.LoadBalancer;
 import com.salmon.loadbalancer.LoadBalancerFactory;
 import com.salmon.model.RpcRequest;
@@ -82,8 +84,13 @@ public class ServiceProxy implements InvocationHandler {
             requestParams.put("methodName", rpcRequest.getMethodName());
             ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfoList);
 
-            // 发送 TCP 请求
-            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
+            // rpc 请求
+            // 使用重试机制
+            RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
+            RpcResponse rpcResponse = retryStrategy.doRetry(() ->
+                    // 发送 TCP 请求
+                    VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo)
+            );
             return rpcResponse.getData();
         } catch (Exception e) {
             throw new RuntimeException("调用失败");
