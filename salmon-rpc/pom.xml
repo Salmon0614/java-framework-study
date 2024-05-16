@@ -15,6 +15,9 @@
         <module>example-common</module>
         <module>salmon-rpc-easy</module>
         <module>salmon-rpc-core</module>
+        <module>example-springboot-consumer</module>
+        <module>example-springboot-provider</module>
+        <module>salmon-rpc-spring-boot-starter</module>
     </modules>
 
     <properties>

@@ -1,5 +1,6 @@
 package com.salmon;
 
+import com.salmon.bootstrap.ConsumerBootstrap;
 import com.salmon.model.User;
 import com.salmon.proxy.ServiceProxyFactory;
 import com.salmon.service.UserService;
@@ -12,6 +13,8 @@ import com.salmon.service.UserService;
  */
 public class ConsumerExample {
     public static void main(String[] args) {
+        // 服务提供者初始化
+        ConsumerBootstrap.init();
         // 获取代理
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();
@@ -23,6 +26,5 @@ public class ConsumerExample {
         } else {
             System.out.println("user == null");
         }
-        System.out.println(userService.getNumber());
     }
 }
