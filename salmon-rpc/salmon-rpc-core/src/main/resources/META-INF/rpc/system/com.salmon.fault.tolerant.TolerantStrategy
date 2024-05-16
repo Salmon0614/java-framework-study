@@ -1,0 +1,4 @@
+failBack=com.salmon.fault.tolerant.impl.FailBackTolerantStrategy
+failFast=com.salmon.fault.tolerant.impl.FailFastTolerantStrategy
+failOver=com.salmon.fault.tolerant.impl.FailOverTolerantStrategy
+failSafe=com.salmon.fault.tolerant.impl.FailSafeTolerantStrategy

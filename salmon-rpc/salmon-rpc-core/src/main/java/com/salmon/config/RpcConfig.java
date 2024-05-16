@@ -1,6 +1,7 @@
 package com.salmon.config;
 
 import com.salmon.fault.retry.RetryStrategyKeys;
+import com.salmon.fault.tolerant.TolerantStrategyKeys;
 import com.salmon.loadbalancer.LoadBalancerKeys;
 import com.salmon.serializer.SerializerKeys;
 import lombok.Data;
@@ -58,4 +59,9 @@ public class RpcConfig {
      * 重试策略
      */
     private String retryStrategy = RetryStrategyKeys.NO;
+
+    /**
+     * 容错策略
+     */
+    private String tolerantStrategy = TolerantStrategyKeys.FAIL_FAST;
 }
