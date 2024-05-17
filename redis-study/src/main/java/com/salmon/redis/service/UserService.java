@@ -31,4 +31,7 @@ public interface UserService {
      * @return 天数
      */
     Integer getSignCount();
+
+
+    void applyApprove(Long uid);
 }

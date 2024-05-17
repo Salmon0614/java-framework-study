@@ -1,11 +1,13 @@
 package com.salmon.redis.service.impl;
 
+import com.salmon.redis.annotation.RedissonLock;
 import com.salmon.redis.service.UserService;
 import com.salmon.redis.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.BitFieldSubCommands;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
@@ -99,6 +101,13 @@ public class UserServiceImpl implements UserService {
             num >>>= 1;
         }
         return count;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @RedissonLock(key = "#uid")
+    public void applyApprove(Long uid) {
+        System.out.println(uid);
     }
 
 }
