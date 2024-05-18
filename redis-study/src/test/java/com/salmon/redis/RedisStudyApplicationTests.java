@@ -22,6 +22,12 @@ class RedisStudyApplicationTests {
     @Autowired
     private RedisTemplate redisTemplate;
 
+
+    @Test
+    public void testRedisson() {
+        userService.applyApprove(1L);
+    }
+
     @Test
     public void redis() {
         ChatMessageReq request = new ChatMessageReq("test", 1L, 2L);
