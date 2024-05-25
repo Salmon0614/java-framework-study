@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate QR Code</title>
+</head>
+<body>
+<label for="textInput"></label><textarea id="textInput" rows="4" cols="50" placeholder="Enter text here"></textarea><br>
+<button onclick="generateQRCode()">Generate QR Code</button><br>
+<img id="qrCodeImage" src="" alt="QR Code">
+
+<script>
+    function generateQRCode() {
+        let text = document.getElementById("textInput").value;
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/generateQRCode", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById("qrCodeImage").src = xhr.responseText;
+            }
+        };
+        xhr.send("content=" + encodeURIComponent(text));
+    }
+</script>
+</body>
+</html>
