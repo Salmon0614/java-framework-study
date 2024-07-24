@@ -1,0 +1,117 @@
+2024-07-21 14:43:39
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (17.0.6+9-LTS-190 mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x000060000176d0a0, length=14, elements={
+0x00000001320e0000, 0x00000001320e2800, 0x00000001320e0c00, 0x000000013780a400,
+0x000000013780aa00, 0x00000001320e6e00, 0x0000000131836e00, 0x000000013080b000,
+0x0000000131839600, 0x0000000132131c00, 0x0000000132132800, 0x0000000132132e00,
+0x0000000132008800, 0x000000013080b600
+}
+
+"Reference Handler" #2 daemon prio=10 os_prio=31 cpu=0.03ms elapsed=92.62s tid=0x00000001320e0000 nid=0x4b03 waiting on condition  [0x000000016c846000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@17.0.6/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@17.0.6/Reference.java:253)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@17.0.6/Reference.java:215)
+
+"Finalizer" #3 daemon prio=8 os_prio=31 cpu=0.07ms elapsed=92.62s tid=0x00000001320e2800 nid=0x4f03 in Object.wait()  [0x000000016ca52000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.6/Native Method)
+	- waiting on <0x000000061fc02f40> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.6/ReferenceQueue.java:155)
+	- locked <0x000000061fc02f40> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.6/ReferenceQueue.java:176)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@17.0.6/Finalizer.java:172)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=31 cpu=0.29ms elapsed=92.61s tid=0x00000001320e0c00 nid=0x7803 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=31 cpu=0.03ms elapsed=92.61s tid=0x000000013780a400 nid=0x7703 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Monitor Deflation Thread" #6 daemon prio=9 os_prio=31 cpu=2.41ms elapsed=92.61s tid=0x000000013780aa00 nid=0x5903 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #7 daemon prio=9 os_prio=31 cpu=1.67ms elapsed=92.61s tid=0x00000001320e6e00 nid=0x7503 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #10 daemon prio=9 os_prio=31 cpu=1.22ms elapsed=92.61s tid=0x0000000131836e00 nid=0x5c03 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #11 daemon prio=9 os_prio=31 cpu=0.02ms elapsed=92.61s tid=0x000000013080b000 nid=0x5d03 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Notification Thread" #12 daemon prio=9 os_prio=31 cpu=0.02ms elapsed=92.61s tid=0x0000000131839600 nid=0x7203 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #13 daemon prio=8 os_prio=31 cpu=0.34ms elapsed=92.61s tid=0x0000000132131c00 nid=0x5f03 in Object.wait()  [0x000000016ddd6000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.6/Native Method)
+	- waiting on <0x000000061fc19088> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.6/ReferenceQueue.java:155)
+	- locked <0x000000061fc19088> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@17.0.6/CleanerImpl.java:140)
+	at java.lang.Thread.run(java.base@17.0.6/Thread.java:833)
+	at jdk.internal.misc.InnocuousThread.run(java.base@17.0.6/InnocuousThread.java:162)
+
+"Thread-0" #14 prio=5 os_prio=31 cpu=3.57ms elapsed=92.61s tid=0x0000000132132800 nid=0x6e03 waiting for monitor entry  [0x000000016dfe2000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at Thread1.run(Main.java:88)
+	- waiting to lock <0x000000061fc1bdc8> (a Resource2)
+	- locked <0x000000061fc1b0a8> (a Resource1)
+
+"Thread-1" #15 prio=5 os_prio=31 cpu=3.09ms elapsed=92.61s tid=0x0000000132132e00 nid=0x6003 waiting for monitor entry  [0x000000016e1ee000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at Thread2.run(Main.java:114)
+	- waiting to lock <0x000000061fc1b0a8> (a Resource1)
+	- locked <0x000000061fc1bdc8> (a Resource2)
+
+"DestroyJavaVM" #16 prio=5 os_prio=31 cpu=12.04ms elapsed=92.61s tid=0x0000000132008800 nid=0x1003 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" #17 daemon prio=9 os_prio=31 cpu=0.37ms elapsed=0.10s tid=0x000000013080b600 nid=0x7c07 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"VM Thread" os_prio=31 cpu=3.01ms elapsed=92.62s tid=0x0000000131609970 nid=0x4803 runnable  
+
+"GC Thread#0" os_prio=31 cpu=0.03ms elapsed=92.62s tid=0x0000000131707030 nid=0x3903 runnable  
+
+"G1 Main Marker" os_prio=31 cpu=0.02ms elapsed=92.62s tid=0x00000001317076e0 nid=0x3803 runnable  
+
+"G1 Conc#0" os_prio=31 cpu=0.01ms elapsed=92.62s tid=0x0000000131707f60 nid=0x3503 runnable  
+
+"G1 Refine#0" os_prio=31 cpu=0.01ms elapsed=92.62s tid=0x000000013170a090 nid=0x4103 runnable  
+
+"G1 Service" os_prio=31 cpu=13.93ms elapsed=92.62s tid=0x000000013170a930 nid=0x4203 runnable  
+
+"VM Periodic Task Thread" os_prio=31 cpu=55.94ms elapsed=92.61s tid=0x0000000131711470 nid=0x7003 waiting on condition  
+
+JNI global refs: 6, weak refs: 0
+
+
+Found one Java-level deadlock:
+=============================
+"Thread-0":
+  waiting to lock monitor 0x0000600002c7c8f0 (object 0x000000061fc1bdc8, a Resource2),
+  which is held by "Thread-1"
+
+"Thread-1":
+  waiting to lock monitor 0x0000600002c784e0 (object 0x000000061fc1b0a8, a Resource1),
+  which is held by "Thread-0"
+
+Java stack information for the threads listed above:
+===================================================
+"Thread-0":
+	at Thread1.run(Main.java:88)
+	- waiting to lock <0x000000061fc1bdc8> (a Resource2)
+	- locked <0x000000061fc1b0a8> (a Resource1)
+"Thread-1":
+	at Thread2.run(Main.java:114)
+	- waiting to lock <0x000000061fc1b0a8> (a Resource1)
+	- locked <0x000000061fc1bdc8> (a Resource2)
+
+Found 1 deadlock.
+
