@@ -1,5 +1,6 @@
 package org.spring;
 
+import org.spring.beans.factory.annotation.Autowired;
 import org.spring.context.annotation.Scope;
 import org.spring.stereotype.Component;
 import org.spring.annotation.ComponentScan;
@@ -7,6 +8,7 @@ import org.spring.beans.factory.config.BeanDefinition;
 import org.spring.utils.StringUtil;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class SalmonApplicationContext {
             String beanName = beanDefinitionEntry.getKey();
             BeanDefinition beanDefinition = beanDefinitionEntry.getValue();
             if (beanDefinition.isSingleton()) {
-                Object beanObj = createBean(beanDefinition);  // 单例Bean对象
+                Object beanObj = createBean(beanName, beanDefinition);  // 单例Bean对象
                 singletonObjects.put(beanName, beanObj);
             }
         }
@@ -105,14 +107,29 @@ public class SalmonApplicationContext {
     }
 
     /**
+     * '
      * 创建Bean
      *
+     * @param beanName       bean名称
+     * @param beanDefinition bean定义信息
      * @return bean对象
      */
-    public Object createBean(BeanDefinition beanDefinition) {
+    public Object createBean(String beanName, BeanDefinition beanDefinition) {
         Class<?> beanClass = beanDefinition.getBeanClass();
         try {
             Object instance = beanClass.getDeclaredConstructor().newInstance();
+
+            // 依赖注入
+            for (Field declaredField : beanClass.getDeclaredFields()) {
+                if (declaredField.isAnnotationPresent(Autowired.class)) {
+                    Object bean = getBean(declaredField.getName());
+                    declaredField.setAccessible(true);
+                    declaredField.set(instance, bean);
+                }
+            }
+            if (instance instanceof BeanNameAware) {
+                ((BeanNameAware) instance).setBeanName(beanName);
+            }
             return instance;
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -133,7 +150,7 @@ public class SalmonApplicationContext {
                 return singletonObjects.get(beanName);
             } else {
                 // 创建Bean对象
-                return createBean(beanDefinition);
+                return createBean(beanName, beanDefinition);
             }
         } else {
             throw new RuntimeException("不存在该Bean");

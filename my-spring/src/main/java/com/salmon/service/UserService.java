@@ -1,6 +1,7 @@
 package com.salmon.service;
 
-import org.spring.context.annotation.Scope;
+import org.spring.BeanNameAware;
+import org.spring.beans.factory.annotation.Autowired;
 import org.spring.stereotype.Component;
 
 /**
@@ -9,5 +10,20 @@ import org.spring.stereotype.Component;
  */
 @Component("userService")
 //@Scope("prototype")
-public class UserService {
+public class UserService implements BeanNameAware {
+
+    @Autowired
+    private OrderService orderService;
+
+    private String beanName;
+
+    public void userBuy() {
+        System.out.println(beanName);
+        orderService.createOrder(10001);
+    }
+
+    @Override
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
+    }
 }
