@@ -10,7 +10,7 @@ import org.spring.stereotype.Component;
  */
 @Component("userService")
 //@Scope("prototype")
-public class UserService implements BeanNameAware {
+public class UserService implements BeanNameAware, UserInterface {
 
     @Autowired
     private OrderService orderService;
@@ -19,6 +19,7 @@ public class UserService implements BeanNameAware {
 
     private String name;
 
+    @Override
     public void userBuy() {
         System.out.println(name);
         System.out.println(beanName);
