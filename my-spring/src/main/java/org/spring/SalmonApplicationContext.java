@@ -1,5 +1,6 @@
 package org.spring;
 
+import org.spring.beans.factory.InitializingBean;
 import org.spring.beans.factory.annotation.Autowired;
 import org.spring.context.annotation.Scope;
 import org.spring.stereotype.Component;
@@ -127,9 +128,19 @@ public class SalmonApplicationContext {
                     declaredField.set(instance, bean);
                 }
             }
+            // Aware回调
             if (instance instanceof BeanNameAware) {
                 ((BeanNameAware) instance).setBeanName(beanName);
             }
+
+            // 初始化
+            if (instance instanceof InitializingBean) {
+                ((InitializingBean) instance).afterPropertiesSet();
+            }
+
+            // BeanPostProcessor
+
+
             return instance;
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -138,6 +149,8 @@ public class SalmonApplicationContext {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
