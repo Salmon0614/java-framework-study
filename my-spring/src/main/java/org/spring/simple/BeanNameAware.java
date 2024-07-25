@@ -1,4 +1,4 @@
-package org.spring;
+package org.spring.simple;
 
 /**
  * @author Salmon

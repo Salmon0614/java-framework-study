@@ -1,6 +1,6 @@
 package com.salmon;
 
-import org.spring.annotation.ComponentScan;
+import org.spring.simple.annotation.ComponentScan;
 
 /**
  * 配置文件

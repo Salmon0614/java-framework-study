@@ -1,7 +1,7 @@
 package com.salmon;
 
 import com.salmon.service.UserService;
-import org.spring.SalmonApplicationContext;
+import org.spring.simple.SalmonApplicationContext;
 
 /**
  * 测试类
