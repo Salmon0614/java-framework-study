@@ -1,9 +1,17 @@
+package bbb;
+
 import sun.misc.Unsafe;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.locks.Lock;
@@ -15,10 +23,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author Salmon
  * @since 2024-07-18
  */
-public class Main {
+public class MainTest {
     public static void main(String[] args) {
         System.out.println("hello salmon's jclasslib");
-        // 创建一个 Person 对象
+        // 创建一个 bbb.Person 对象
         Person person = new Person("Alice", 30);
 
         // 使用自动生成的访问器方法获取字段值
@@ -26,9 +34,9 @@ public class Main {
         System.out.println("Age: " + person.age());   // 输出: Age: 30
 
         // 使用自动生成的 toString() 方法
-        System.out.println(person); // 输出: Person[name=Alice, age=30]
+        System.out.println(person); // 输出: bbb.Person[name=Alice, age=30]
 
-        // 比较两个 Person 对象
+        // 比较两个 bbb.Person 对象
         Person person2 = new Person("Alice", 30);
         System.out.println(person.equals(person2)); // 输出: true
 
@@ -88,7 +96,7 @@ class Thread1 extends Thread {
     @Override
     public void run() {
         synchronized (resource1) {
-            System.out.println("Thread1: locked Resource1");
+            System.out.println("bbb.Thread1: locked bbb.Resource1");
 
             try {
                 Thread.sleep(100);
@@ -96,7 +104,7 @@ class Thread1 extends Thread {
             }
 
             synchronized (resource2) {
-                System.out.println("Thread1: locked Resource2");
+                System.out.println("bbb.Thread1: locked bbb.Resource2");
             }
         }
     }
@@ -114,7 +122,7 @@ class Thread2 extends Thread {
     @Override
     public void run() {
         synchronized (resource2) {
-            System.out.println("Thread2: locked Resource2");
+            System.out.println("bbb.Thread2: locked bbb.Resource2");
 
             try {
                 Thread.sleep(100);
@@ -122,7 +130,7 @@ class Thread2 extends Thread {
             }
 
             synchronized (resource1) {
-                System.out.println("Thread2: locked Resource1");
+                System.out.println("bbb.Thread2: locked bbb.Resource1");
             }
         }
     }
@@ -291,17 +299,17 @@ class IsShutdownIsTerminatedExample {
 class SleepExample {
     public static void main(String[] args) {
         Thread thread1 = new Thread(() -> {
-            System.out.println("Thread1 is going to sleep.");
+            System.out.println("bbb.Thread1 is going to sleep.");
             try {
                 Thread.sleep(2000); // Sleep for 2 seconds
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Thread1 woke up.");
+            System.out.println("bbb.Thread1 woke up.");
         });
 
         Thread thread2 = new Thread(() -> {
-            System.out.println("Thread2 is running.");
+            System.out.println("bbb.Thread2 is running.");
             // This thread does not interact with thread1 directly
         });
 
@@ -316,19 +324,19 @@ class WaitExample {
     public static void main(String[] args) {
         Thread thread1 = new Thread(() -> {
             synchronized (lock) {
-                System.out.println("Thread1 acquired the lock and is waiting.");
+                System.out.println("bbb.Thread1 acquired the lock and is waiting.");
                 try {
                     lock.wait(2000); // Wait for 2 seconds
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Thread1 resumed after wait.");
+                System.out.println("bbb.Thread1 resumed after wait.");
             }
         });
 
         Thread thread2 = new Thread(() -> {
             synchronized (lock) {
-                System.out.println("Thread2 acquired the lock and will notify.");
+                System.out.println("bbb.Thread2 acquired the lock and will notify.");
                 lock.notify(); // Notify waiting threads
             }
         });
@@ -1005,7 +1013,7 @@ class UnsafeDemo {
             field.setAccessible(true);
             unsafe = (Unsafe) field.get(null);
             // 获取对象字段偏移量
-//            valueOffset = unsafe.objectFieldOffset(UnsafeDemo.class.getDeclaredField("value"));
+//            valueOffset = unsafe.objectFieldOffset(bbb.UnsafeDemo.class.getDeclaredField("value"));
         } catch (Exception ex) {
             throw new Error(ex);
         }
@@ -1020,7 +1028,7 @@ class UnsafeDemo {
     }
 
 //    public static void main(String[] args) {
-//        UnsafeDemo example = new UnsafeDemo();
+//        bbb.UnsafeDemo example = new bbb.UnsafeDemo();
 //        System.out.println("Initial value: " + example.value);
 //
 //        // 使用 CAS 修改值
@@ -1028,4 +1036,257 @@ class UnsafeDemo {
 //        System.out.println("CAS success: " + success);
 //        System.out.println("Updated value: " + example.value);
 //    }
+}
+
+class BubbleSort {
+    public static void main(String[] args) {
+        int[] arr = {64, 34, 25, 12, 22, 11, 90};
+
+        System.out.println("Original array:");
+        printArray(arr);
+
+        bubbleSort(arr);
+
+        System.out.println("Sorted array:");
+        printArray(arr);
+    }
+
+    static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    static void printArray(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+class ExceptionHandling {
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        try {
+            // 提交任务并获取Future对象
+            Future<?> future = executorService.submit(() -> {
+                // 这里的代码会抛出异常
+                throw new RuntimeException("任务中的异常");
+            });
+
+            // 在这里处理Future，尝试获取结果
+            future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            // 捕获异常
+            e.printStackTrace();
+        } finally {
+            // 关闭ExecutorService
+            executorService.shutdown();
+        }
+    }
+}
+
+class MyClass {
+    private int id;
+    private String name;
+
+    public MyClass(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public static void main(String[] args) {
+        try {
+            Class<MyClass> clazz = MyClass.class;
+            Constructor<MyClass> constructor = clazz.getConstructor(int.class, String.class);
+            MyClass myClassInstance = constructor.newInstance(1, "cxw");
+            System.out.println(myClassInstance);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class UserController {
+    public String login(String username, String password) throws NoSuchAlgorithmException {
+        String local = "123456";
+        if (encryptPass(local).equals(encryptPass(password))) {
+            System.out.println("生成token");
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
+    private String encryptPass(String password) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("md5");
+        byte[] digest = md5.digest(password.getBytes(StandardCharsets.UTF_8));
+        String s = new BigInteger(1, digest).toString(16);
+        System.out.println(s);
+        System.out.println(s.length());
+        return s;
+    }
+
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        UserController userController = new UserController();
+        System.out.println(userController.login("11111", "123456"));
+    }
+}
+
+/**
+ * Integer对象的比较
+ */
+class TestInteger {
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+        // 获取Unsafe实例
+        Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+        unsafeField.setAccessible(true);
+        Unsafe unsafe = (Unsafe) unsafeField.get(null);
+        Integer i = 10;
+        Integer j = 10;
+        System.out.println(i == j);
+        System.out.println(getObjectAddress(unsafe, i));
+        System.out.println(getObjectAddress(unsafe, j));
+        Integer a = 200;
+        Integer b = 200;
+        System.out.println(a == b);
+        System.out.println(getObjectAddress(unsafe, a));
+        System.out.println(getObjectAddress(unsafe, b));
+    }
+
+    private static long getObjectAddress(Unsafe unsafe, Object obj) {
+        Object[] array = new Object[]{obj};
+        long baseOffset = unsafe.arrayBaseOffset(Object[].class);
+        return unsafe.getLong(array, baseOffset);
+    }
+}
+
+interface FatherInterface {
+    String hello();
+
+    default String hello1() {
+        return "";
+    }
+
+    private String hello2() {
+        return "1";
+    }
+}
+
+class Son implements FatherInterface {
+
+    @Override
+    public String hello() {
+        return null;
+    }
+
+    @Override
+    public String hello1() {
+        return FatherInterface.super.hello1();
+    }
+}
+
+class SunObj extends FatherObj {
+    @Override
+    public void aa() {
+        super.aa();
+    }
+
+    @Override
+    void bb() {
+        super.bb();
+    }
+
+    @Override
+    protected void cc() {
+        super.cc();
+    }
+}
+
+class TestObj {
+    public static void main(String[] args) {
+        FatherObj fatherObj = new FatherObj();
+        fatherObj.aa();
+        fatherObj.bb();
+        fatherObj.cc();
+    }
+}
+
+class TestString {
+    public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {
+        // 获取Unsafe实例
+        Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+        unsafeField.setAccessible(true);
+        Unsafe unsafe = (Unsafe) unsafeField.get(null);
+        // 使用“” 则会在字符串常量池中找，找到了则直接返回常量池中对象的引用
+        String s1 = "aa";
+        String s2 = "aa";
+        System.out.println(s1 == s2);
+        System.out.println("s1在常量池中的地址：" + getObjectAddress(unsafe, s1));
+        System.out.println("s2在常量池中的地址：" + getObjectAddress(unsafe, s2));
+        System.out.println(s1.equals(s2));
+        System.out.println("============================");
+        String s3 = new String("aa");
+        System.out.println(s1 == s3);
+        System.out.println(s1 == s3.intern());
+        System.out.println("s1在常量池中的地址：" + getObjectAddress(unsafe, s1));
+        System.out.println("s3在堆中的地址：" + getObjectAddress(unsafe, s3));
+        // intern()会先前往字符串常量池中找，如果不在里面，则说明在堆中，就会把堆中对象的引用放进字符串常量池。
+        System.out.println("s3在常量池中的地址，s3.intern()：" + getObjectAddress(unsafe, s3.intern()));
+        s3 = s3.intern();
+        System.out.println("s3拿到常量池中已存在的对象的引用，s3：" + getObjectAddress(unsafe, s3));
+        System.out.println(s1.equals(s3));
+        System.out.println("============================");
+        String s4 = new String("bbbbb");
+        System.out.println("s4未放进常量池：" + getObjectAddress(unsafe, s4));
+        s4 = s4.intern();
+        System.out.println("s4放进常量池：" + getObjectAddress(unsafe, s4));
+        String s5 = "bbbbb";
+        System.out.println("字符串常量s5：" + getObjectAddress(unsafe, s5));
+        System.out.println(s4 == s5);
+        System.out.println("============================");
+        String s6 = new String("bbbbb");
+        System.out.println("s6在堆中的引用地址：" + getObjectAddress(unsafe, s6));
+        System.out.println(s4 == s6);
+        System.out.println("s6在常量池中的引用地址,s6.intern()：" + getObjectAddress(unsafe, s6.intern()));
+        System.out.println(s4 == s6.intern());
+        System.out.println("============================");
+        s6 = "bbbbb";
+        System.out.println("s6在常量池中的地址：" + getObjectAddress(unsafe, s6));
+        s6 = "bcd";
+        System.out.println("s6在常量池中的地址：" + getObjectAddress(unsafe, s6));
+        System.out.println("============================");
+        String s7 = new String("abcd");
+        System.out.println("s7在堆中的引用地址：" + getObjectAddress(unsafe, s7));
+        String s8 = "abcd";
+        System.out.println("字符串常量s8：" + getObjectAddress(unsafe, s8));
+        System.out.println(s7 == s8);
+        System.out.println(s7.intern() == s7);
+        System.out.println(s7.intern() == s8);
+        System.out.println(s8.intern() == s8);
+        System.out.println(s7.equals(s8));
+        StringBuilder stringBuilder = new StringBuilder();
+        StringBuffer stringBuffer = new StringBuffer();
+        HashMap hashMap = new HashMap();
+        Hashtable hashtable = new Hashtable<>();
+        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+        Semaphore semaphore = new Semaphore(5);
+    }
+
+    private static long getObjectAddress(Unsafe unsafe, Object obj) {
+        Object[] array = new Object[]{obj};
+        long baseOffset = unsafe.arrayBaseOffset(Object[].class);
+        return unsafe.getLong(array, baseOffset);
+    }
 }
